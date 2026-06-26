@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #193a7a;
+  --color-primary-light: #2451a0;
+  --color-primary-dark: #0f234d;
+  --color-secondary: #18b6c8;
+  --color-accent: #ff8a2a;
+  --color-success: #48b84d;
+  --color-background: #f7f9fc;
+  --color-section-alt: #eef5ff;
+  --color-muted: #5a6b85;
+  --color-border: #dce6f2;
+  --color-card: #ffffff;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-serif: "DM Serif Display", Georgia, serif;
+  --radius-card: 1.125rem;
+  --shadow-card: 0 1px 2px rgba(15, 35, 77, 0.04), 0 8px 24px rgba(15, 35, 77, 0.06);
+  --shadow-card-hover: 0 4px 8px rgba(15, 35, 77, 0.06), 0 16px 40px rgba(15, 35, 77, 0.1);
+  --shadow-elevated: 0 20px 50px rgba(15, 35, 77, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-background);
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(24, 182, 200, 0.18);
+  color: #193a7a;
+}
+
+/* ── Layout utilities ── */
+.section-pad {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 1024px) {
+  .section-pad {
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+  }
+}
+
+.bg-page {
+  background-color: var(--color-background);
+}
+
+.bg-section-alt {
+  background-color: var(--color-section-alt);
+}
+
+.bg-section-dark {
+  background: linear-gradient(165deg, #0f234d 0%, #193a7a 55%, #1a4288 100%);
+}
+
+/* ── Navbar glass ── */
+.nav-bar {
+  background: #f7f9fc;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px rgba(15, 35, 77, 0.04);
+}
+
+:root {
+  --nav-height: 5.25rem;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-height: 5.5rem;
+  }
+}
+
+.pt-nav {
+  padding-top: var(--nav-height);
+}
+
+.pt-nav-offset {
+  padding-top: calc(var(--nav-height) + 1.25rem);
+}
+
+@media (min-width: 1024px) {
+  .pt-nav-offset {
+    padding-top: calc(var(--nav-height) + 2rem);
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(220, 230, 242, 0.6);
+}
+
+/* ── Hero ── */
+.hero-premium {
+  background:
+    radial-gradient(ellipse 90% 60% at 75% 10%, rgba(24, 182, 200, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 10% 80%, rgba(255, 138, 42, 0.08), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255, 255, 255, 0.04), transparent),
+    linear-gradient(155deg, #0f234d 0%, #193a7a 42%, #1e4a90 72%, #1a3f7a 100%);
+}
+
+.hero-mesh-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
+}
+
+/* ── Cards ── */
+.card-premium {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+}
+
+.card-premium:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(24, 182, 200, 0.25);
+}
+
+.card-elevated {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-card);
+}
+
+/* ── CTA gradient ── */
+.cta-gradient {
+  background:
+    radial-gradient(ellipse 60% 80% at 90% 20%, rgba(24, 182, 200, 0.35), transparent 55%),
+    radial-gradient(ellipse 50% 60% at 5% 90%, rgba(255, 138, 42, 0.12), transparent 50%),
+    linear-gradient(125deg, #193a7a 0%, #1a5f8a 50%, #18b6c8 100%);
+}
+
+/* ── Decorative ── */
+.section-mesh {
+  background:
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(24, 182, 200, 0.07), transparent),
+    radial-gradient(ellipse 50% 35% at 5% 90%, rgba(25, 58, 122, 0.05), transparent);
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border) 20%, var(--color-border) 80%, transparent);
+}
+
+.dot-pattern {
+  background-image: radial-gradient(rgba(25, 58, 122, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Footer ── */
+.footer-premium {
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 100%, rgba(24, 182, 200, 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 85% 0%, rgba(25, 58, 122, 0.16) 0%, transparent 50%),
+    linear-gradient(165deg, #0f1524 0%, #121a2e 42%, #0a0f1a 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-premium::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-secondary) 30%, var(--color-accent) 70%, transparent);
+  opacity: 0.7;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background: var(--color-primary);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 2px 8px rgba(25, 58, 122, 0.25);
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-light);
+  box-shadow: 0 4px 16px rgba(25, 58, 122, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #193a7a, #18b6c8);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 4px 20px rgba(24, 182, 200, 0.3);
+  transition: all 0.25s ease;
+}
+
+.btn-cta:hover {
+  box-shadow: 0 6px 28px rgba(24, 182, 200, 0.4);
+  transform: translateY(-1px);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
