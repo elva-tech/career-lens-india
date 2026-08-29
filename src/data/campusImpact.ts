@@ -4,6 +4,7 @@ export type EventType =
   | 'Technology Session'
   | 'Career Guidance'
   | 'Placement Preparation'
+  | 'Faculty Development'
 
 export interface CampusEventImage {
   src: string
@@ -60,8 +61,115 @@ export const FUTURE_COLLABORATIONS = {
   ],
 } as const
 
-/** Add new events here — UI updates automatically. */
+export const CAMPUS_IMPACT_PAGE_SIZE = 3
+
+export type CampusImpactFilter = 'all' | 'career' | 'workshop' | 'lecture'
+
+/** Add new events here — UI updates automatically. Newest sessions use the lowest `order`. */
 export const CAMPUS_EVENTS: CampusEvent[] = [
+  {
+    id: 'evt-sit-generative-ai-faculty',
+    slug: 'generative-ai-prompt-engineering-sit-tumakuru-faculty',
+    eventType: 'Faculty Development',
+    topic: 'Generative AI & Prompt Engineering',
+    institution: 'Siddaganga Institute of Technology',
+    location: 'Tumakuru, Karnataka',
+    description:
+      'An engaging faculty session on Generative AI and Prompt Engineering at Siddaganga Institute of Technology, Tumakuru — conducted by Arun P.N., with Prabhu T.P. supporting coordination. Faculty from Information Science & Engineering, Computer Science & Engineering and MCA explored practical AI techniques for teaching and research. For CareerLens, the visit was also a homecoming: SIT is where Arun and Prabhu began their engineering journey. Our thanks to Prof. Nagarathna, Prof. Jayanna and Prof. Aparna for the opportunity and warm welcome.',
+    tags: ['Faculty Development', 'Generative AI', 'Prompt Engineering', 'SIT Tumakuru', 'ISE', 'CSE', 'MCA'],
+    images: [
+      {
+        src: '/images/campus-impact/sit-generative-ai-faculty-1.jpg',
+        alt: 'Arun P.N. conducting a Generative AI and Prompt Engineering session for faculty at Siddaganga Institute of Technology, Tumakuru',
+      },
+      {
+        src: '/images/campus-impact/sit-generative-ai-faculty-2.jpg',
+        alt: 'Faculty members in a computer lab attending the CareerLens Generative AI session at SIT Tumakuru',
+      },
+      {
+        src: '/images/campus-impact/sit-generative-ai-faculty-3.jpg',
+        alt: 'SIT faculty at computer workstations during the Generative AI and Prompt Engineering workshop',
+      },
+    ],
+    featured: true,
+    order: 1,
+  },
+  {
+    id: 'evt-bit-prompt-engineering-fdp',
+    slug: 'prompt-engineering-aicte-atal-fdp-bit-bengaluru',
+    eventType: 'Faculty Development',
+    topic: 'Prompt Engineering: Core Techniques',
+    institution: 'Bangalore Institute of Technology',
+    location: 'VV Puram, Bengaluru',
+    date: '5 August 2026',
+    description:
+      'Session 5 of the AICTE ATAL Faculty Development Program at Bangalore Institute of Technology, delivered by CareerLens India co-founder Arun P.N. Faculty and researchers explored practical Prompt Engineering and Generative AI techniques — a hands-on guide to making AI work in teaching and research.',
+    tags: ['Faculty Development', 'Prompt Engineering', 'Generative AI', 'AICTE ATAL', 'BIT Bengaluru'],
+    images: [
+      {
+        src: '/images/campus-impact/bit-prompt-engineering-fdp-1.jpg',
+        alt: 'Arun P.N. presenting Prompt Engineering for Research at the AICTE ATAL Faculty Development Program, Bangalore Institute of Technology',
+      },
+      {
+        src: '/images/campus-impact/bit-prompt-engineering-fdp-2.jpg',
+        alt: 'Faculty members and researchers attending the Prompt Engineering session in the seminar hall at BIT Bengaluru',
+      },
+      {
+        src: '/images/campus-impact/bit-prompt-engineering-fdp-3.jpg',
+        alt: 'Felicitation of Arun P.N. after the Prompt Engineering session at Bangalore Institute of Technology',
+      },
+      {
+        src: '/images/campus-impact/bit-prompt-engineering-fdp-4.jpg',
+        alt: 'Speakers seated at the dais during the AICTE ATAL Faculty Development Program at BIT Bengaluru',
+      },
+      {
+        src: '/images/campus-impact/bit-prompt-engineering-fdp-5.jpg',
+        alt: 'Group photograph of faculty participants after the Prompt Engineering FDP session at Bangalore Institute of Technology',
+      },
+    ],
+    featured: true,
+    order: 2,
+  },
+  {
+    id: 'evt-career-roadmap-vijaya-puc',
+    slug: 'career-roadmap-after-12th-vijaya-puc-tumkur',
+    eventType: 'Career Guidance',
+    topic: 'Career Roadmap After 12th',
+    institution: 'Vijaya Pre-University College',
+    location: 'Tumkur, Karnataka',
+    date: '4 July 2026',
+    description:
+      'A campus-wide career guidance session — Career Roadmap After 12th: Every Path, Every Opportunity — at Vijaya Pre-University College, Tumkur. Students explored post-PUC pathways, entrance options and industry-ready careers through an interactive session with CareerLens India, with hundreds of PUC students in attendance.',
+    tags: ['Career Guidance', 'After 12th', 'PUC', 'Career Roadmap', 'School Outreach'],
+    images: [
+      {
+        src: '/images/campus-impact/career-roadmap-vijaya-puc-1.jpg',
+        alt: 'Career Roadmap After 12th session at Vijaya Pre-University College, Tumkur, with CareerLens India on the projector screen',
+      },
+      {
+        src: '/images/campus-impact/career-roadmap-vijaya-puc-2.jpg',
+        alt: 'Hall full of PUC students attending the Career Roadmap After 12th workshop at Vijaya Pre-University College',
+      },
+      {
+        src: '/images/campus-impact/career-roadmap-vijaya-puc-3.jpg',
+        alt: 'Speaker addressing students seated on the hall floor during the career guidance session at Vijaya PUC',
+      },
+      {
+        src: '/images/campus-impact/career-roadmap-vijaya-puc-4.jpg',
+        alt: 'Career guidance presentation in progress with students in uniform listening at Vijaya Pre-University College',
+      },
+      {
+        src: '/images/campus-impact/career-roadmap-vijaya-puc-5.jpg',
+        alt: 'Wide view of the career guidance workshop with students taking notes at Vijaya Pre-University College, Tumkur',
+      },
+      {
+        src: '/images/campus-impact/career-roadmap-vijaya-puc-6.jpg',
+        alt: 'Mentor speaking to a packed student audience during the Campus Impact career session at Vijaya PUC',
+      },
+    ],
+    featured: true,
+    order: 3,
+  },
   {
     id: 'evt-big-data-sit',
     slug: 'big-data-analytics-sit-tumakuru',
@@ -79,7 +187,7 @@ export const CAMPUS_EVENTS: CampusEvent[] = [
       },
     ],
     featured: true,
-    order: 1,
+    order: 4,
   },
   {
     id: 'evt-web-dev-workshop',
@@ -102,7 +210,7 @@ export const CAMPUS_EVENTS: CampusEvent[] = [
       },
     ],
     featured: true,
-    order: 2,
+    order: 5,
   },
   {
     id: 'evt-ai-workshop',
@@ -125,7 +233,7 @@ export const CAMPUS_EVENTS: CampusEvent[] = [
       },
     ],
     featured: true,
-    order: 3,
+    order: 6,
   },
   {
     id: 'evt-school-stem-workshop',
@@ -152,22 +260,57 @@ export const CAMPUS_EVENTS: CampusEvent[] = [
       },
     ],
     featured: true,
-    order: 4,
+    order: 7,
   },
 ]
 
+export function getSortedEvents() {
+  return [...CAMPUS_EVENTS].sort((a, b) => a.order - b.order)
+}
+
 export function getFeaturedEvents() {
-  return [...CAMPUS_EVENTS].filter((e) => e.featured).sort((a, b) => a.order - b.order)
+  return getSortedEvents().filter((e) => e.featured)
+}
+
+function matchesFilter(event: CampusEvent, filter: CampusImpactFilter) {
+  if (filter === 'all') return true
+  if (filter === 'career') return event.eventType === 'Career Guidance' || event.eventType === 'Placement Preparation'
+  if (filter === 'lecture') return event.eventType === 'Guest Lecture'
+  return (
+    event.eventType === 'Industrial Workshop' ||
+    event.eventType === 'Technology Session' ||
+    event.eventType === 'Faculty Development'
+  )
+}
+
+export function getFilteredEvents(filter: CampusImpactFilter = 'all') {
+  return getSortedEvents().filter((e) => matchesFilter(e, filter))
+}
+
+export function getPaginatedEvents(
+  page: number,
+  filter: CampusImpactFilter = 'all',
+  pageSize = CAMPUS_IMPACT_PAGE_SIZE,
+) {
+  const events = getFilteredEvents(filter)
+  const totalPages = Math.max(1, Math.ceil(events.length / pageSize))
+  const currentPage = Math.min(Math.max(1, page), totalPages)
+  const start = (currentPage - 1) * pageSize
+  return {
+    events: events.slice(start, start + pageSize),
+    total: events.length,
+    totalPages,
+    currentPage,
+    pageSize,
+  }
 }
 
 export function getGuestLectures() {
-  return CAMPUS_EVENTS.filter((e) => e.eventType === 'Guest Lecture').sort((a, b) => a.order - b.order)
+  return getFilteredEvents('lecture')
 }
 
 export function getWorkshops() {
-  return CAMPUS_EVENTS.filter(
-    (e) => e.eventType === 'Industrial Workshop' || e.eventType === 'Technology Session',
-  ).sort((a, b) => a.order - b.order)
+  return getFilteredEvents('workshop')
 }
 
 export function getEventBySlug(slug: string) {
@@ -175,5 +318,5 @@ export function getEventBySlug(slug: string) {
 }
 
 export function getTimelineEvents() {
-  return [...CAMPUS_EVENTS].sort((a, b) => a.order - b.order)
+  return getSortedEvents()
 }

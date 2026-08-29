@@ -11,6 +11,16 @@
     <title>CareerLens India — See the career before you choose it</title>
   </head>
   <body>
+    <script>
+      (function () {
+        var redirect = sessionStorage.getItem('spa-redirect')
+        if (!redirect) return
+        sessionStorage.removeItem('spa-redirect')
+        if (redirect !== location.pathname + location.search + location.hash) {
+          history.replaceState(null, '', redirect)
+        }
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

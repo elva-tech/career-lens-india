@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { MapPin, Building2 } from 'lucide-react'
+import { MapPin, Building2, CalendarDays } from 'lucide-react'
 import { EventImageCarousel } from './EventImageCarousel'
 import type { CampusEvent } from '../../data/campusImpact'
 
@@ -64,6 +64,12 @@ export function EventCard({ event, index, compact = false, variant = 'light' }: 
               <MapPin className={`h-4 w-4 shrink-0 ${dark ? 'text-secondary' : 'text-primary/60'}`} />
               <span>{event.location}</span>
             </div>
+            {event.date && (
+              <div className="flex items-center gap-2">
+                <CalendarDays className={`h-4 w-4 shrink-0 ${dark ? 'text-secondary' : 'text-primary/60'}`} />
+                <span>{event.date}</span>
+              </div>
+            )}
           </div>
 
           <p className={`mt-5 leading-relaxed ${dark ? 'text-white/60' : 'text-muted'}`}>{event.description}</p>

@@ -40,14 +40,14 @@ export function EventImageCarousel({ images, className = '', priority = false }:
           <button
             onClick={prev}
             aria-label="Previous image"
-            className="absolute top-1/2 left-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary opacity-0 shadow-md backdrop-blur-sm transition-all group-hover:opacity-100 hover:bg-white"
+            className="absolute top-1/2 left-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary opacity-90 shadow-md backdrop-blur-sm transition-all md:opacity-0 md:group-hover:opacity-100 hover:bg-white"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={next}
             aria-label="Next image"
-            className="absolute top-1/2 right-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary opacity-0 shadow-md backdrop-blur-sm transition-all group-hover:opacity-100 hover:bg-white"
+            className="absolute top-1/2 right-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary opacity-90 shadow-md backdrop-blur-sm transition-all md:opacity-0 md:group-hover:opacity-100 hover:bg-white"
           >
             <ChevronRight className="h-5 w-5" />
           </button>

@@ -1,34 +1,50 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, GraduationCap, Mic, Wrench, Sparkles } from 'lucide-react'
+import { ArrowRight, GraduationCap, Sparkles } from 'lucide-react'
 import { Navbar } from '../components/layout/Navbar'
 import { Footer } from '../components/layout/Footer'
 import { WhatsAppFloat } from '../components/layout/WhatsAppFloat'
 import { FadeIn } from '../components/shared/FadeIn'
 import { EventCard } from '../components/campus-impact/EventCard'
 import { PartnerWithSection } from '../components/campus-impact/PartnerWithSection'
+import { Pagination } from '../components/campus-impact/Pagination'
 import {
   CAMPUS_IMPACT_HEADING,
+  CAMPUS_IMPACT_PAGE_SIZE,
   FUTURE_COLLABORATIONS,
-  getGuestLectures,
+  getPaginatedEvents,
+  getSortedEvents,
   getTimelineEvents,
-  getWorkshops,
-  type CampusEvent,
+  type CampusImpactFilter,
 } from '../data/campusImpact'
+
+const FILTERS: { id: CampusImpactFilter; label: string }[] = [
+  { id: 'all', label: 'All Sessions' },
+  { id: 'career', label: 'Career Guidance' },
+  { id: 'workshop', label: 'Workshops' },
+  { id: 'lecture', label: 'Guest Lectures' },
+]
+
+function parseFilter(value: string | null): CampusImpactFilter {
+  if (value === 'career' || value === 'workshop' || value === 'lecture') return value
+  return 'all'
+}
 
 function HeroBanner() {
   const { scrollY } = useScroll()
   const y = useTransform(scrollY, [0, 400], [0, 120])
   const opacity = useTransform(scrollY, [0, 300], [1, 0.3])
+  const latest = getSortedEvents()[0]
+  const heroImage = latest?.images[0]
 
   return (
-      <section className="hero-premium relative flex min-h-[50vh] items-end overflow-hidden lg:min-h-[55vh]">
+    <section className="hero-premium relative flex min-h-[50vh] items-end overflow-hidden lg:min-h-[55vh]">
       <div className="hero-mesh-grid pointer-events-none absolute inset-0 opacity-30" />
       <motion.div style={{ y }} className="absolute inset-0">
         <img
-          src="/images/campus-impact/big-data-guest-lecture-1.png"
-          alt="CareerLens India conducting a guest lecture at an engineering college campus"
+          src={heroImage?.src ?? '/images/campus-impact/big-data-guest-lecture-1.png'}
+          alt={heroImage?.alt ?? 'CareerLens India conducting a session at a campus'}
           className="h-full w-full object-cover opacity-25"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary-dark via-primary/85 to-primary/50" />
@@ -82,7 +98,10 @@ function Timeline() {
                   <div className={`hidden md:block md:w-1/2 ${i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'}`}>
                     <span className="text-xs font-semibold text-secondary uppercase">{event.eventType}</span>
                     <h3 className="mt-1 font-semibold text-primary">{event.topic}</h3>
-                    <p className="mt-1 text-sm text-gray-500">{event.institution}, {event.location}</p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      {event.institution}, {event.location}
+                      {event.date ? ` · ${event.date}` : ''}
+                    </p>
                   </div>
                   <div className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white shadow-md ring-4 ring-secondary/20 md:absolute md:left-1/2 md:-translate-x-1/2">
                     <span className="text-xs font-bold text-primary">{i + 1}</span>
@@ -103,45 +122,15 @@ function Timeline() {
   )
 }
 
-function EventGroup({
-  title,
-  icon: Icon,
-  events,
-  startIndex,
-  variant = 'dark',
-}: {
-  title: string
-  icon: React.ComponentType<{ className?: string }>
-  events: CampusEvent[]
-  startIndex: number
-  variant?: 'dark' | 'page'
-}) {
-  if (events.length === 0) return null
-  const dark = variant === 'dark'
-
-  return (
-    <section className={`relative overflow-hidden py-16 lg:py-24 ${dark ? 'bg-section-dark' : 'bg-page section-mesh'}`}>
-      {dark && <div className="hero-mesh-grid pointer-events-none absolute inset-0 opacity-15" />}
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <FadeIn className="mb-14 flex items-center gap-3">
-          <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${dark ? 'bg-white/10 text-secondary' : 'bg-primary/8 text-primary'}`}>
-            <Icon className="h-5 w-5" />
-          </div>
-          <h2 className={`font-serif text-2xl tracking-tight md:text-3xl ${dark ? 'text-white' : 'text-primary'}`}>{title}</h2>
-        </FadeIn>
-        <div className="space-y-20 lg:space-y-28">
-          {events.map((event, i) => (
-            <EventCard key={event.id} event={event} index={startIndex + i} variant={dark ? 'dark' : 'light'} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export function CampusImpactPage() {
-  const workshops = getWorkshops()
-  const guestLectures = getGuestLectures()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const filter = parseFilter(searchParams.get('type'))
+  const requestedPage = Number(searchParams.get('page') || '1') || 1
+
+  const { events, total, totalPages, currentPage } = useMemo(
+    () => getPaginatedEvents(requestedPage, filter),
+    [requestedPage, filter],
+  )
 
   useEffect(() => {
     document.title = 'Campus Impact — CareerLens India'
@@ -157,6 +146,23 @@ export function CampusImpactPage() {
     }
   }, [])
 
+  useEffect(() => {
+    if (requestedPage !== currentPage) {
+      const next = new URLSearchParams(searchParams)
+      if (currentPage <= 1) next.delete('page')
+      else next.set('page', String(currentPage))
+      setSearchParams(next, { replace: true })
+    }
+  }, [requestedPage, currentPage, searchParams, setSearchParams])
+
+  const updateParams = (nextPage: number, nextFilter: CampusImpactFilter) => {
+    const next = new URLSearchParams()
+    if (nextFilter !== 'all') next.set('type', nextFilter)
+    if (nextPage > 1) next.set('page', String(nextPage))
+    setSearchParams(next)
+    document.getElementById('campus-sessions')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <div className="bg-page">
       <Navbar />
@@ -164,10 +170,59 @@ export function CampusImpactPage() {
       <HeroBanner />
       <Timeline />
 
-      <EventGroup title="Industrial Workshops" icon={Wrench} events={workshops} startIndex={0} variant="dark" />
-      <EventGroup title="Guest Lectures" icon={Mic} events={guestLectures} startIndex={workshops.length} variant="page" />
+      <section id="campus-sessions" className="bg-section-dark relative overflow-hidden py-16 lg:py-24">
+        <div className="hero-mesh-grid pointer-events-none absolute inset-0 opacity-15" />
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+          <FadeIn className="mb-8">
+            <h2 className="font-serif text-2xl tracking-tight text-white md:text-3xl">Campus Sessions</h2>
+            <p className="mt-2 text-white/60">
+              {total} {total === 1 ? 'session' : 'sessions'} across schools and colleges.
+            </p>
+          </FadeIn>
 
-      {/* Future Collaborations */}
+          <div className="mb-14 flex flex-wrap gap-2">
+            {FILTERS.map((item) => {
+              const active = item.id === filter
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => updateParams(1, item.id)}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+                    active
+                      ? 'bg-white text-primary'
+                      : 'border border-white/20 bg-white/10 text-white/80 hover:bg-white/20 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              )
+            })}
+          </div>
+
+          {events.length === 0 ? (
+            <p className="text-white/60">No sessions in this category yet.</p>
+          ) : (
+            <div className="space-y-20 lg:space-y-28">
+              {events.map((event, i) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  index={(currentPage - 1) * CAMPUS_IMPACT_PAGE_SIZE + i}
+                  variant="dark"
+                />
+              ))}
+            </div>
+          )}
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => updateParams(page, filter)}
+          />
+        </div>
+      </section>
+
       <section className="bg-section-alt py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">

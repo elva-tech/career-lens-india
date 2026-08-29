@@ -6,3 +6,4 @@ import { visitCounterPlugin } from './vite-plugin-visit-counter.js'
 export default defineConfig({
   plugins: [react(), tailwindcss(), visitCounterPlugin()],
 })
+
